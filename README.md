@@ -1,1 +1,1 @@
-"# community-sustainability-platform" 
+# Community Sustainability Platform
