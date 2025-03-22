@@ -1,59 +1,77 @@
-import axios from 'axios';
+// src/services/authService.js
+import API from '../api';
 
-// Replace with your actual API base URL (where your Django backend will be running)
-const API_URL = 'http://localhost:8000/api'; 
+const authService = {
+    // Now using API for all requests, so the interceptor applies
+    login: async (email, password) => {
+        try {
+            const response = await API.post('token/', {email, password});
+            if (response.data) {
+                localStorage.setItem('accessToken', response.data.access);
+                localStorage.setItem('refreshToken', response.data.refresh);
+            }
+            return response.data;
+        } catch (error) {
+            console.error('Login error:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    },
 
-// Create an axios instance
-const apiClient = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+    /**
+     * Registers a new user with the provided userData.
+     *
+     * @param {Object} userData - Should include email, first_name, last_name, dob, address,
+     *                            members_in_family, phone_number, occupation, and password.
+     * @returns {Promise<Object>} The newly created user data.
+     */
+    register: async (userData) => {
+        try {
+            const response = await API.post('register/', userData);
+            return response.data;
+        } catch (error) {
+            console.error('Registration error:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    },
 
-// Add a request interceptor to include JWT token in requests if available
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+    /**
+     * Logs out the user by clearing tokens from localStorage.
+     */
+    logout: () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+    },
 
-export const login = async (credentials) => {
-  try {
-    const response = await apiClient.post('/auth/login', credentials);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+    /**
+     * Refreshes the access token using the stored refresh token.
+     *
+     * @returns {Promise<string>} The new access token.
+     */
+    refreshToken: async () => {
+        try {
+            const refresh = localStorage.getItem('refreshToken');
+            if (!refresh) {
+                throw new Error('No refresh token available');
+            }
+            const response = await API.post('token/refresh/', {refresh});
+            if (response.data) {
+                localStorage.setItem('accessToken', response.data.access);
+                return response.data.access;
+            }
+        } catch (error) {
+            console.error('Token refresh error:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    },
+
+    /**
+     * Returns the current access token from localStorage.
+     *
+     * @returns {string|null} The access token or null if not found.
+     */
+    getAccessToken: () => {
+        return localStorage.getItem('accessToken');
+    },
 };
 
-export const register = async (userData) => {
-  try {
-    const response = await apiClient.post('/auth/register', userData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const logout = () => {
-  localStorage.removeItem('token');
-  // Redirect to login page or perform other logout actions
-};
-
-export const checkAuth = async () => {
-  try {
-    const response = await apiClient.get('/auth/me');
-    return response.data;
-  } catch (error) {
-    logout();
-    throw error;
-  }
-};
+export default authService;

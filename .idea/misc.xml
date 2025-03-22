@@ -3,8 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (community-sustainability-platform)" />
   </component>
-  <component name="GitLabDefaultAccount">
-    <option name="defaultAccountId" value="77e6abab-a42c-4ebf-96d3-2b730bdb3ff5" />
-  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (community-sustainability-platform)" project-jdk-type="Python SDK" />
 </project>

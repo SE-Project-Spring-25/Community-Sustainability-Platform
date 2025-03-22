@@ -32,7 +32,6 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None  # remove the username field
     email = models.EmailField(unique=True)
-    # first_name and last_name already exist but redefining to ensure proper length/requirements
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     dob = models.DateField(null=True, blank=True)

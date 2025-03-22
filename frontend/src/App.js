@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Dashboard from "./components/Dashboard";
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('login');
 
-  const switchForm = (formName) => {
-    setCurrentForm(formName);
-  };
+    const isAuthenticated = !!localStorage.getItem('accessToken');
 
-  return (
-    <div className="App">
-      {currentForm === 'login' ? (
-        <Login switchToSignup={() => switchForm('signup')} />
-      ) : (
-        <Signup switchToLogin={() => switchForm('login')} />
-      )}
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/* Public routes */}
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<Signup/>}/>
+
+                {/* Protected route */}
+                <Route
+                    path="/dashboard"
+                    element={isAuthenticated ? <Dashboard/> : <Navigate to="/login"/>}
+                />
+
+                {/* Redirect any unknown route to login */}
+                <Route path="*" element={<Navigate to="/login"/>}/>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
