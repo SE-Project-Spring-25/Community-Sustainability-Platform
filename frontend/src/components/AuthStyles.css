@@ -8,18 +8,18 @@
     --background-light: #f9f9f9;
     --error-color: #e53935;
     --shadow-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Auth Container */
-  .auth-container {
+}
+
+/* Auth Container */
+.auth-container {
     display: flex;
     height: 100vh;
     width: 100%;
     position: relative;
     overflow: hidden;
-  }
-  
-  .auth-card {
+}
+
+.auth-card {
     width: 100%;
     max-width: 500px;
     height: 100%;
@@ -28,92 +28,94 @@
     z-index: 1;
     position: relative;
     overflow-y: auto;
-  }
-  
-  .auth-content {
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.auth-content {
     padding: 2rem;
     height: 100%;
     display: flex;
     flex-direction: column;
-  }
-  
-  .auth-header {
+}
+
+.auth-header {
     text-align: center;
     margin-bottom: 2rem;
-  }
-  
-  .leaf-icon {
+}
+
+.leaf-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     animation: float 3s ease-in-out infinite;
-  }
-  
-  .auth-header h2 {
+}
+
+.auth-header h2 {
     color: var(--primary-dark);
     margin-bottom: 0.5rem;
     font-size: 1.8rem;
-  }
-  
-  .auth-header p {
+}
+
+.auth-header p {
     color: var(--text-light);
     font-size: 1rem;
-  }
-  
-  /* Form Styles */
-  .form-group {
+}
+
+/* Form Styles */
+.form-group {
     margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
+}
+
+.form-group label {
     display: block;
     margin-bottom: 0.5rem;
     color: var(--text-color);
     font-weight: 500;
-  }
-  
-  .input-with-icon {
+}
+
+.input-with-icon {
     position: relative;
-  }
-  
-  .input-icon {
+}
+
+.input-icon {
     position: absolute;
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.2rem;
-  }
-  
-  .form-group input {
+}
+
+.form-group input {
     width: 100%;
     padding: 0.8rem 1rem 0.8rem 3rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .form-group input:focus {
+}
+
+.form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px var(--primary-light);
-  }
-  
-  .forgot-password {
+}
+
+.forgot-password {
     text-align: right;
     margin-bottom: 1.5rem;
-  }
-  
-  .forgot-password a {
+}
+
+.forgot-password a {
     color: var(--primary-color);
     text-decoration: none;
     font-size: 0.9rem;
-  }
-  
-  .forgot-password a:hover {
+}
+
+.forgot-password a:hover {
     text-decoration: underline;
-  }
-  
-  .auth-button {
+}
+
+.auth-button {
     width: 100%;
     padding: 0.8rem;
     background-color: var(--primary-color);
@@ -124,78 +126,78 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .auth-button:hover {
+}
+
+.auth-button:hover {
     background-color: var(--primary-dark);
-  }
-  
-  .auth-button:disabled {
+}
+
+.auth-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
-  }
-  
-  .auth-button.secondary {
+}
+
+.auth-button.secondary {
     background-color: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
-  }
-  
-  .auth-button.secondary:hover {
+}
+
+.auth-button.secondary:hover {
     background-color: rgba(76, 175, 80, 0.1);
-  }
-  
-  .button-group {
+}
+
+.button-group {
     display: flex;
     gap: 1rem;
-  }
-  
-  /* Auth Footer */
-  .auth-footer {
+}
+
+/* Auth Footer */
+.auth-footer {
     margin-top: auto;
     text-align: center;
-  }
-  
-  .auth-link {
+}
+
+.auth-link {
     color: var(--primary-color);
     cursor: pointer;
     font-weight: 500;
-  }
-  
-  .auth-link:hover {
+}
+
+.auth-link:hover {
     text-decoration: underline;
-  }
-  
-  .eco-fact {
+}
+
+.eco-fact {
     margin-top: 2rem;
     padding: 1rem;
     background-color: rgba(76, 175, 80, 0.1);
     border-radius: 8px;
     display: flex;
     align-items: center;
-  }
-  
-  .eco-icon {
+}
+
+.eco-icon {
     font-size: 1.5rem;
     margin-right: 1rem;
-  }
-  
-  .eco-fact p {
+}
+
+.eco-fact p {
     color: var(--text-color);
     font-size: 0.9rem;
     margin: 0;
-  }
-  
-  /* Nature Background */
-  .nature-bg {
+}
+
+/* Nature Background */
+.nature-bg {
     flex: 1;
     background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1587&q=80');
     background-size: cover;
     background-position: center;
     position: relative;
-  }
-  
-  .nature-bg::after {
+}
+
+.nature-bg::after {
     content: '';
     position: absolute;
     top: 0;
@@ -203,27 +205,27 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Error Message */
-  .error-message {
+}
+
+/* Error Message */
+.error-message {
     background-color: rgba(229, 57, 53, 0.1);
     color: var(--error-color);
     padding: 0.8rem;
     border-radius: 4px;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
-  }
-  
-  /* Signup Progress Bar */
-  .signup-progress {
+}
+
+/* Signup Progress Bar */
+.signup-progress {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-  }
-  
-  .progress-step {
+}
+
+.progress-step {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -233,45 +235,53 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
-  }
-  
-  .progress-step.active {
+}
+
+.progress-step.active {
     background-color: var(--primary-color);
     color: white;
-  }
-  
-  .progress-line {
+}
+
+.progress-line {
     flex: 1;
     height: 2px;
     background-color: #ddd;
     margin: 0 10px;
-  }
-  
-  /* Animation */
-  @keyframes float {
+}
+
+/* Animation */
+@keyframes float {
     0% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
     50% {
-      transform: translateY(-10px);
+        transform: translateY(-10px);
     }
     100% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
-  }
-  
-  /* Media Queries */
-  @media (max-width: 768px) {
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
     .auth-container {
-      flex-direction: column;
+        flex-direction: column;
     }
-    
+
     .auth-card {
-      max-width: 100%;
-      height: 100%;
+        max-width: 100%;
+        height: 100%;
     }
-    
+
     .nature-bg {
-      display: none;
+        display: none;
     }
-  }
+}
+
+
+@media (max-width: 500px) {
+    .auth-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}

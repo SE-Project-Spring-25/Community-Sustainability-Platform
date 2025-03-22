@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 
 function App() {
 
-    const isAuthenticated = !!localStorage.getItem('accessToken');
+    // const isAuthenticated = !!localStorage.getItem('accessToken');
 
     return (
         <BrowserRouter>
@@ -18,7 +18,8 @@ function App() {
                 {/* Protected route */}
                 <Route
                     path="/dashboard"
-                    element={isAuthenticated ? <Dashboard/> : <Navigate to="/login"/>}
+                    element={<Dashboard/>}
+                    // element={isAuthenticated ? <Dashboard/> : <Navigate to="/login"/>}
                 />
 
                 {/* Redirect any unknown route to login */}

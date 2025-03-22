@@ -94,7 +94,7 @@ const Signup = ({switchToLogin}) => {
             };
 
             const response = await authService.register(userData);
-
+            console.log('Signed up successfully: ', response);
             if (response.access) {
                 localStorage.setItem('accessToken', response.access);
             }
@@ -234,7 +234,7 @@ const Signup = ({switchToLogin}) => {
                     <div className="auth-footer">
                         <p>
                             Already have an account?{' '}
-                            <span className="auth-link" onClick={switchToLogin}>
+                            <span className="auth-link" onClick={() => navigate('/login')}>
                 Sign in
               </span>
                         </p>

@@ -103,7 +103,7 @@ const Login = ({switchToSignup}) => {
                     <div className="auth-footer">
                         <p>
                             Don't have an account?{' '}
-                            <span className="auth-link" onClick={switchToSignup}>
+                            <span className="auth-link" onClick={() => navigate('/signup')}>
                 Sign up
               </span>
                         </p>
