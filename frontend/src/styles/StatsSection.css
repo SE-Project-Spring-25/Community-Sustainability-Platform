@@ -1,0 +1,121 @@
+.stats-container {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: var(--stats-bg);
+  box-shadow: var(--stats-shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: 520px;
+  padding-right: 10px;
+}
+
+/* Scrollbar */
+.stats-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+.stats-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+/* Section Title */
+.stats-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: var(--stats-text);
+}
+
+/* Chart.js Styling */
+.stats-container canvas {
+  background: transparent !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+.stats-container .chartjs-legend li span {
+  color: var(--stats-text);
+}
+
+/* LIGHT MODE */
+[data-theme="light"] {
+  --stats-bg: #f5f5f5;
+  --stats-text: #000000;
+}
+
+/* DARK MODE */
+[data-theme="dark"] {
+  --stats-text: #ffffff;
+}
+
+/* Utilities Header Section */
+.utilities-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin-bottom: 0;
+  padding-right: 5px;
+  gap: 8px;
+  margin-top: -60px;
+}
+
+/* Text Label */
+.utilities-header h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--stats-text);
+  margin: 0;
+}
+
+/* Plus Button */
+.plus-button {
+  background: #4d91ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.plus-button:hover {
+  transform: scale(1.1);
+}
+
+/* Light Theme */
+body.light .plus-button {
+  background: #007bff;
+}
+
+body.light .utilities-header h3 {
+  color: #000;
+}
+
+/* Dark Theme */
+body.dark .utilities-header h3 {
+  color: #fff;
+}
+
+/* 📱 Mobile Responsiveness */
+@media (max-width: 768px) {
+  .utilities-header {
+    margin-top: -20px;
+    padding-right: 5px;
+  }
+
+  .plus-button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,104 @@
+/* Content Section Container */
+.content-container {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.content-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+/* Hyperlink List */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+/* Link Styling */
+ul li a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+/* Underline Animation */
+ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.4s ease-in-out;
+}
+
+ul li a:hover::after {
+  width: 100%;
+}
+
+/* Dark Mode */
+body.dark .content-container {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark .section-title {
+  color: #ffffff;
+}
+
+body.dark ul li a {
+  color: #4d91ff;
+}
+
+body.dark ul li a:hover {
+  color: white;
+}
+
+/* Light Mode */
+body.light .content-container {
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.light .section-title {
+  color: #000000;
+}
+
+body.light ul li a {
+  color: #007bff;
+}
+
+body.light ul li a:hover {
+  color: #0056b3;
+}
+
+body.light .content-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}

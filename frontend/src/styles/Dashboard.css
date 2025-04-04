@@ -1,0 +1,66 @@
+/* Main flex container */
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 95vw; /* Expanding width slightly */
+  max-width: 1500px; /* Expanding max width */
+  margin: 0 auto;
+  gap: 25px; /* Increase spacing between sections */
+  margin-top: 1%;
+}
+
+/* Section width ratios */
+.content-section {
+  flex: 1; /* Expands within its allocated ratio */
+  height: 550px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+}
+
+.stats-section {
+  flex: 3; /* Expands within its allocated ratio */
+  height: 550px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+}
+
+.leaderboard-section {
+  flex: 1; /* Expands within its allocated ratio */
+  height: 550px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+}
+
+/* Light Mode */
+body.light .content-section,
+body.light .stats-section,
+body.light .leaderboard-section {
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode */
+body.dark .content-section,
+body.dark .stats-section,
+body.dark .leaderboard-section {
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .dashboard-container {
+    margin-top: 5%;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .content-section,
+  .stats-section,
+  .leaderboard-section {
+    flex: none;
+    width: 90%;
+  }
+}
