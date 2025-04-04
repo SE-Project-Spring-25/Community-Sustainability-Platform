@@ -1,0 +1,13 @@
+name: Deploy Frontend to Render on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  render-frontend-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy Hook
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-cvnv63s9c44c73fh8uag?key=GUODbS8uLMc"
