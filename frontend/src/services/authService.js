@@ -72,6 +72,14 @@ const authService = {
     getAccessToken: () => {
         return localStorage.getItem('accessToken');
     },
+
+    /**
+     * Returns true if a valid access token exists.
+     */
+    isAuthenticated: () => {
+        const token = localStorage.getItem('accessToken');
+        return !!token && token !== 'undefined' && token !== 'null';
+    }
 };
 
 export default authService;

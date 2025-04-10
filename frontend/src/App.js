@@ -1,31 +1,41 @@
+// src/App.js
 import React from 'react';
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from "./components/Dashboard";
+import Navbar from './components/Navbar';
+import { ThemeProvider } from './context/ThemeContext';
+import authService from './services/authService';
+import "./styles/App.css";
 
-function App() {
-
-    // const isAuthenticated = !!localStorage.getItem('accessToken');
+function AppContent() {
+    const location = useLocation();
+    const isAuthenticated = authService.isAuthenticated();
 
     return (
-        <BrowserRouter>
+        <>
+            {location.pathname === '/dashboard' && isAuthenticated && <Navbar />}
             <Routes>
-                {/* Public routes */}
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/signup" element={<Signup/>}/>
-
-                {/* Protected route */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route
                     path="/dashboard"
-                    element={<Dashboard/>}
-                    // element={isAuthenticated ? <Dashboard/> : <Navigate to="/login"/>}
+                    element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
                 />
-
-                {/* Redirect any unknown route to login */}
-                <Route path="*" element={<Navigate to="/login"/>}/>
+                <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
-        </BrowserRouter>
+        </>
+    );
+}
+
+function App() {
+    return (
+        <ThemeProvider>
+            <BrowserRouter>
+                <AppContent />
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 

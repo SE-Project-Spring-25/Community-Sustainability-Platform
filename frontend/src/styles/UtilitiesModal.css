@@ -1,0 +1,146 @@
+/* Overlay with blur effect */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Modal Box */
+.modal-container {
+    background: rgba(30, 30, 30, 0.95);
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+    box-sizing: border-box;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-container h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+/* Labels */
+.modal-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #dddddd;
+}
+
+/* Inputs + Select */
+.modal-container input,
+.modal-container select {
+    width: 100%;
+    padding: 10px 14px; /* padding-right added */
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #2a2a2a;
+    color: #ffffff;
+    transition: border 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Extra padding to align dropdown arrow */
+.modal-container select {
+    padding-right: 38px;
+}
+
+/* Fix calendar icon color */
+.modal-container input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Focus state */
+.modal-container input:focus,
+.modal-container select:focus {
+    outline: none;
+    border: 1px solid #4d91ff;
+}
+
+/* Button row */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Buttons */
+.modal-buttons button {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.modal-buttons button:first-child {
+    background: #4d91ff;
+    color: white;
+}
+
+.modal-buttons button:first-child:hover {
+    background: #407bd6;
+}
+
+.modal-buttons button:last-child {
+    background: #444;
+    color: white;
+}
+
+.modal-buttons button:last-child:hover {
+    background: #666;
+}
+
+/* Light Mode */
+body.light .modal-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.light .modal-container h2,
+body.light .modal-container label {
+    color: #222;
+}
+
+body.light .modal-container input,
+body.light .modal-container select {
+    background: #f2f2f2;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+body.light .modal-container input:focus,
+body.light .modal-container select:focus {
+    border: 1px solid #4d91ff;
+}
+
+body.light .modal-buttons button:last-child {
+    background: #e0e0e0;
+    color: #000;
+}
+
+body.light .modal-buttons button:last-child:hover {
+    background: #cfcfcf;
+}
+
+body.light .modal-container input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+}

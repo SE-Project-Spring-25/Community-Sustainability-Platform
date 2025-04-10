@@ -15,11 +15,10 @@ const Login = ({switchToSignup}) => {
 
     // Redirect if already logged in
     useEffect(() => {
-        const token = authService.getAccessToken();
-        if (token) {
+        if (authService.isAuthenticated()) {
             navigate('/dashboard');
         }
-    }, [navigate]);
+    }, [navigate])
 
     const handleChange = (e) => {
         const {name, value} = e.target;

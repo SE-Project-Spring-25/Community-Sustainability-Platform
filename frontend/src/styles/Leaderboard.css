@@ -1,0 +1,92 @@
+/* Title */
+.leaderboard-title {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Leaderboard row */
+.leaderboard-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  width: 180px;
+  height: 5px;
+}
+
+/* Rank */
+.rank {
+  font-weight: bold;
+  width: 30px;
+}
+
+/* Name */
+.name {
+  flex: 1;
+  text-align: left;
+}
+
+/* Points */
+.points {
+  font-weight: bold;
+}
+
+/* Light Mode - Gradient */
+body.light .gold {
+  background: linear-gradient(135deg, #ffdd55, #ffcc22);
+  color: black;
+}
+
+body.light .silver {
+  background: linear-gradient(135deg, #d9d9d9, #bfbfbf);
+  color: black;
+}
+
+body.light .bronze {
+  background: linear-gradient(135deg, #e68a4b, #cd7f32);
+  color: black;
+}
+
+/* Dark Mode - Neon Glow */
+body.dark .gold {
+  background: linear-gradient(135deg, #ffdd55, #ffcc22);
+  color: black;
+  box-shadow: 0px 0px 12px rgba(255, 221, 85, 0.8);
+}
+
+body.dark .silver {
+  background: linear-gradient(135deg, #c0c0c0, #a9a9a9);
+  color: black;
+  box-shadow: 0px 0px 12px rgba(192, 192, 192, 0.8);
+}
+
+body.dark .bronze {
+  background: linear-gradient(135deg, #cd7f32, #b36b29);
+  color: black;
+  box-shadow: 0px 0px 12px rgba(205, 127, 50, 0.8);
+}
+
+/* Default row background */
+body.light .default-row {
+  background: linear-gradient(135deg, #f5f5f5, #eaeaea);
+  color: black;
+}
+
+body.dark .default-row {
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .leaderboard-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
