@@ -9,7 +9,7 @@ class TransportationEmission(models.Model):
         ('bus', 'Bus'),
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()  # User provides the date
     distance = models.FloatField(help_text="Distance traveled in miles")
     mode = models.CharField(max_length=10, choices=TRANSPORT_MODES)
 
@@ -24,7 +24,7 @@ class TransportationEmission(models.Model):
     @property
     def emissions(self):
         """
-        CO2 (kg) = (Distance in miles × 1.60934) × mode factor (kg CO2/miles)
+        CO2 (kg) = (Distance in miles × 1.60934) × mode factor (kg CO2 per miles)
         """
         miles_distance = self.distance * 1.60934
         return miles_distance * self.mode_factor
@@ -35,9 +35,8 @@ class TransportationEmission(models.Model):
 
 class HouseholdEnergy(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()  # User provides the date
     energy_usage = models.FloatField(help_text="Energy usage in kWh")
-    # Default grid emission factor; this could be adjusted per region
     grid_emission_factor = models.FloatField(default=0.4, help_text="kg CO2 per kWh")
 
     @property
@@ -57,13 +56,12 @@ class FoodConsumption(models.Model):
         ('meat', 'Meat-based'),
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()  # User provides the date
     servings = models.PositiveIntegerField(default=1)
     food_type = models.CharField(max_length=10, choices=FOOD_TYPES)
 
     @property
     def emission_factor(self):
-        # Using the simplified factors: Plant-based = 0.5, Meat-based = 2.0 kg CO2 per meal
         if self.food_type == 'plant':
             return 0.5
         elif self.food_type == 'meat':
@@ -85,20 +83,16 @@ class TotalCarbonFootprint(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     period_start = models.DateField(help_text="Start date of the period")
     period_end = models.DateField(help_text="End date of the period")
-
-    # Aggregated emissions for the period (in kg CO2)
     total_emissions = models.FloatField(help_text="Total CO2 emissions for the period (kg)")
-
-    # Optional breakdown of emissions per category (in kg CO2)
     transportation_emissions = models.FloatField(default=0, help_text="Total transportation emissions (kg CO2)")
     energy_emissions = models.FloatField(default=0, help_text="Total household energy emissions (kg CO2)")
     food_emissions = models.FloatField(default=0, help_text="Total food consumption emissions (kg CO2)")
-
     computed_on = models.DateTimeField(auto_now_add=True, help_text="Timestamp when this record was computed")
 
     def save(self, *args, **kwargs):
-
-        if not self.total_emissions:
+        # Here we assume that total_emissions is not provided by the user.
+        # You could also check explicitly for None if 0 is a valid computed value.
+        if self.total_emissions is None or self.total_emissions == 0:
             self.total_emissions = (
                     self.transportation_emissions +
                     self.energy_emissions +
