@@ -5,7 +5,7 @@ from .views import (
     TransportationEmissionViewSet,
     HouseholdEnergyViewSet,
     FoodConsumptionViewSet,
-    TotalCarbonFootprintViewSet,
+    TotalCarbonFootprintViewSet, UtilitiesStatsAPIView,
 )
 
 router = DefaultRouter()
@@ -15,5 +15,6 @@ router.register(r'food-consumption', FoodConsumptionViewSet, basename='food-cons
 router.register(r'total-carbon-footprint', TotalCarbonFootprintViewSet, basename='total-carbon-footprint')
 
 urlpatterns = [
+    path('stats/', UtilitiesStatsAPIView.as_view(), name='utilities-stats'),
     path('', include(router.urls)),
 ]
