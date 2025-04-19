@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Include the accounts app endpoints (JWT token, registration)
     path('api/accounts/', include('accounts.urls')),
+    path('api/utilities/', include('utilities.urls')),
 ]
