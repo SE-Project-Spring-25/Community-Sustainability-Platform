@@ -24,17 +24,7 @@ const StatsSection = () => {
     // Function to fetch stats from your backend
     const fetchStats = async () => {
         try {
-            // Expecting backend to return an object like:
-            // {
-            //   "resourceConsumption": {
-            //     "Household Energy": 120,
-            //     "Food Consumption": 80,
-            //     "Transportation Emission": 100
-            //   },
-            //   "monthlyEmissions": [300, 280, 290, 310, 330, 350, 340, 360, 370, 380, 400, 420],
-            //   "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-            // }
-            const response = await API.get("http://localhost:8000/api/utilities/stats/");
+            const response = await API.get("https://community-sustainability-engine.onrender.com/api/utilities/stats/");
             const stats = response.data;
 
             // Set up pie chart data

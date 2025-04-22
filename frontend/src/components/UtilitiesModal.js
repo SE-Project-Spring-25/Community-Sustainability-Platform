@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import API from "../api"; // Import the interceptor-configured API instance
 import "../styles/UtilitiesModal.css";
 
-const BASE_API_URL = "http://localhost:8000/api/utilities";
+const BASE_API_URL = "https://community-sustainability-engine.onrender.com/api/utilities";
 
 const UtilitiesModal = ({open, onClose}) => {
     const [formData, setFormData] = useState({

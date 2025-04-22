@@ -16,7 +16,8 @@ const processQueue = (error, token = null) => {
 };
 
 const API = axios.create({
-    baseURL: 'http://localhost:8000/api/accounts/', // Adjust the base URL as needed
+    // baseURL: 'http://localhost:8000/api/accounts/', // Adjust the base URL as needed
+    baseURL: 'https://community-sustainability-engine.onrender.com/api/accounts/',
 });
 
 // Request interceptor: attach the access token to every request if available.
@@ -72,7 +73,8 @@ API.interceptors.response.use(
 
             return new Promise((resolve, reject) => {
                 axios
-                    .post('http://localhost:8000/api/accounts/token/refresh/', {refresh: refreshToken})
+                    // .post('http://localhost:8000/api/accounts/token/refresh/', {refresh: refreshToken})
+                    .post('https://community-sustainability-engine.onrender.com/api/accounts/token/refresh/', {refresh: refreshToken})
                     .then(({data}) => {
                         localStorage.setItem('accessToken', data.access);
                         API.defaults.headers.common['Authorization'] = 'Bearer ' + data.access;
