@@ -118,3 +118,119 @@ body.dark .switch {
   box-shadow: 0px 0px 6px rgba(255, 221, 85, 0.6);
   overflow: hidden;
 }
+
+/* Dropdown Wrapper */
+.nav-item-rewards-wrapper {
+  position: relative;
+}
+
+/* Larger Rewards Dropdown */
+.rewards-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: var(--dropdown-bg, #fff);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px; /* Wider dropdown */
+  padding: 20px; /* Spacious */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Wallet Balance Text */
+.wallet-balance {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Bigger Redeem Button */
+.big-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.big-button:hover {
+  background-color: #45a049;
+}
+
+/* Dark Mode */
+body.dark .rewards-dropdown {
+  background: #333;
+  border: 1px solid #555;
+  color: #eee;
+}
+
+body.dark .wallet-balance {
+  color: #eee;
+}
+
+body.dark .big-button {
+  background-color: #388e3c;
+}
+
+body.dark .big-button:hover {
+  background-color: #2e7d32;
+}
+
+/* Profile Dropdown */
+.nav-item-profile-wrapper {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: var(--dropdown-bg, #fff);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 150px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Logout Button */
+.logout-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Dark Mode */
+body.dark .profile-dropdown {
+  background: #333;
+  border: 1px solid #555;
+  color: #eee;
+}
+
+body.dark .logout-button {
+  background-color: #d32f2f;
+}
+
+body.dark .logout-button:hover {
+  background-color: #b71c1c;
+}
