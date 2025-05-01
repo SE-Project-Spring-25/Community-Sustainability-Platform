@@ -5,7 +5,7 @@ import { PiUserFill } from "react-icons/pi";
 import { GiWallet } from "react-icons/gi";
 import "../styles/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ onWalletClick }) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
 
@@ -14,20 +14,38 @@ const Navbar = () => {
       <div className="nav-left">
         <h2>Community Sustainability</h2>
       </div>
-      <div className="nav-right">
-        <span className="nav-item-rewards"><GiWallet /></span>
-        <span className="nav-item-profile"><PiUserFill /></span>
 
-        {/* Modern Toggle Switch */}
-        <label className="switch">
-          <input type="checkbox" checked={theme === "dark"} onChange={toggleTheme} />
+      <div className="nav-right">
+        {/* Wallet icon - triggers rewards modal */}
+        <span
+          className="nav-item-rewards"
+          title="Rewards"
+          onClick={onWalletClick}
+        >
+          <GiWallet />
+        </span>
+
+        {/* Profile icon */}
+        <span
+          className="nav-item-profile"
+          title="Profile"
+          onClick={() => setOpen(!open)}
+        >
+          <PiUserFill />
+        </span>
+
+        {/* Light/Dark toggle */}
+        <label className="switch" title="Toggle Theme">
+          <input
+            type="checkbox"
+            checked={theme === "dark"}
+            onChange={toggleTheme}
+          />
           <span className="slider">
             <FaSun className={`icon-sun ${theme === "light" ? "visible" : ""}`} />
             <FaMoon className={`icon-moon ${theme === "dark" ? "visible" : ""}`} />
           </span>
         </label>
-
-        <div className="profile" data-testid="profile-icon" onClick={() => setOpen(!open)}></div>
       </div>
     </nav>
   );
