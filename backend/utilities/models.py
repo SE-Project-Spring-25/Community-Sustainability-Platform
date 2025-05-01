@@ -1,6 +1,11 @@
+from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from accounts.models import CustomUser
+
+User = settings.AUTH_USER_MODEL
 
 
 class TransportationEmission(models.Model):
@@ -102,3 +107,63 @@ class TotalCarbonFootprint(models.Model):
 
     def __str__(self):
         return f"{self.user.username} footprint ({self.period_start} to {self.period_end}): {self.total_emissions} kg CO2"
+
+
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.PositiveIntegerField(default=0)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} — {self.points} SP"
+
+
+class PointTransaction(models.Model):
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="transactions")
+    amount = models.IntegerField(help_text="Positive = earn, Negative = spend")
+    description = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Redemption(models.Model):
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="redemptions")
+    points_redeemed = models.PositiveIntegerField()
+    reward_description = models.CharField(max_length=255)
+    redeemed_on = models.DateTimeField(auto_now_add=True)
+
+
+# Automatic points-awarding whenever a TotalCarbonFootprint record is created
+@receiver(post_save, sender=TotalCarbonFootprint)
+def award_points_for_carbon_reduction(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    user = instance.user
+
+    # Fetch the last 4 periods before this one to compute baseline
+    prev_periods = TotalCarbonFootprint.objects.filter(
+        user=user,
+        period_end__lt=instance.period_start
+    ).order_by('-period_start')[:4]
+
+    if len(prev_periods) < 4:
+        # Not enough history yet
+        return
+
+    baseline = sum(p.total_emissions for p in prev_periods) / 4
+    reduction = baseline - instance.total_emissions
+    if reduction <= 0:
+        return
+
+    # Points per kg: 10 SP/kg
+    points = int(reduction * 10)
+
+    wallet, _ = Wallet.objects.get_or_create(user=user)
+    wallet.points += points
+    wallet.save()
+
+    PointTransaction.objects.create(
+        wallet=wallet,
+        amount=points,
+        description=f"Weekly reduction reward: {points} SP for reducing {reduction:.2f} kg CO₂"
+    )

@@ -2,6 +2,7 @@ import calendar
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
+from django.db.models import F
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,13 +11,13 @@ from .models import (
     TransportationEmission,
     HouseholdEnergy,
     FoodConsumption,
-    TotalCarbonFootprint
+    TotalCarbonFootprint, Wallet, Redemption
 )
 from .serializers import (
     TransportationEmissionSerializer,
     HouseholdEnergySerializer,
     FoodConsumptionSerializer,
-    TotalCarbonFootprintSerializer
+    TotalCarbonFootprintSerializer, RedemptionSerializer, WalletSerializer
 )
 from .utils import get_total_carbon_footprint
 
@@ -155,3 +156,60 @@ class UtilitiesStatsAPIView(APIView):
             "labels": labels,
         }
         return Response(data)
+
+
+class WalletView(APIView):
+    """
+    GET current user's wallet (balance + transactions)
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+        data = WalletSerializer(wallet).data
+        return Response(data)
+
+
+class RedemptionViewSet(viewsets.ModelViewSet):
+    """
+    POST to redeem points, GET to list a user's redemptions.
+    """
+    serializer_class = RedemptionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        wallet, _ = Wallet.objects.get_or_create(user=self.request.user)
+        return Redemption.objects.filter(wallet=wallet)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class LeaderboardAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Top 10 wallets ordered by descending points
+        top_wallets = Wallet.objects.select_related('user') \
+                          .order_by(F('points').desc())[:10]
+        top10 = [
+            {'name': w.user.first_name, 'points': w.points}
+            for w in top_wallets
+        ]
+
+        # Current user's wallet (create if missing)
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+
+        # Compute current user's rank
+        rank = Wallet.objects.filter(points__gt=wallet.points).count() + 1
+
+        current_user = {
+            'name': request.user.first_name,
+            'points': wallet.points,
+            'rank': rank
+        }
+
+        return Response({
+            'top10': top10,
+            'currentUser': current_user
+        })
