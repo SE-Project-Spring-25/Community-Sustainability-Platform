@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import '../styles/VoucherModal.css'; 
 
 const vouchersData = [
-  { id: 1, title: 'Gas Voucher', pointsRequired: 100, code: 'GAS-1234-5678' },
-  { id: 2, title: 'Electricity Voucher', pointsRequired: 200, code: 'ELEC-8765-4321' },
-  { id: 3, title: 'Water Bill Voucher', pointsRequired: 150, code: 'WATER-2468-1357' },
+  { id: 1, title: 'Gas Voucher', pointsRequired: 1000, code: 'GAS-100' },
+  { id: 2, title: 'Electricity Voucher', pointsRequired: 10000, code: 'ELEC-250' },
+  { id: 3, title: 'Water Bill Voucher', pointsRequired: 15000, code: 'WATER-200' },
 ];
 
 const VoucherModal = ({ userPoints, onClose }) => {
