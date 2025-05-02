@@ -1,236 +1,236 @@
 /* Navbar */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  height: 20px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    height: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Right Section (Rewards, Profile, Toggle) */
 .nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 /* Navbar Icons */
 .nav-item-profile, .nav-item-rewards {
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .nav-item-profile {
-  color: orange;
+    color: orange;
 }
 
 .nav-item-rewards {
-  color: darkgreen;
+    color: darkgreen;
 }
 
 /* Toggle Switch */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
 }
 
 /* Hide Default Checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* Slider */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 3px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3px;
 }
 
 /* Circular Knob */
 .slider::before {
-  content: "";
-  height: 18px;
-  width: 18px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-  position: absolute;
-  left: 4px;
+    content: "";
+    height: 18px;
+    width: 18px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    position: absolute;
+    left: 4px;
 }
 
 /* Move Knob when Toggled */
 input:checked + .slider::before {
-  transform: translateX(24px);
+    transform: translateX(24px);
 }
 
 /* Sun & Moon Icons Inside Switch */
 .icon-sun, .icon-moon {
-  position: absolute;
-  font-size: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: opacity 0.3s ease;
-  opacity: 0; /* Hidden by default */
+    position: absolute;
+    font-size: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.3s ease;
+    opacity: 0; /* Hidden by default */
 }
 
 /* Sun (Light Mode) */
 .icon-sun {
-  left: 6px;
-  color: #f39c12; /* Bright Yellow */
+    left: 6px;
+    color: #f39c12; /* Bright Yellow */
 }
 
 /* Moon (Dark Mode) */
 .icon-moon {
-  right: 6px;
-  color: white;
+    right: 6px;
+    color: white;
 }
 
 /* Show correct icon based on mode */
 .visible {
-  opacity: 1 !important;
+    opacity: 1 !important;
 }
 
 /* Dark Mode Styles */
 body.dark .slider {
-  background-color: #222;
-  box-shadow: 0px 0px 10px rgba(255, 221, 85, 0.6);
+    background-color: #222;
+    box-shadow: 0px 0px 10px rgba(255, 221, 85, 0.6);
 }
 
 body.dark .switch {
-  background-color: #222;
-  box-shadow: 0px 0px 6px rgba(255, 221, 85, 0.6);
-  overflow: hidden;
+    background-color: #222;
+    box-shadow: 0px 0px 6px rgba(255, 221, 85, 0.6);
+    overflow: hidden;
 }
 
 /* Dropdown Wrapper */
 .nav-item-rewards-wrapper {
-  position: relative;
+    position: relative;
 }
 
 /* Larger Rewards Dropdown */
 .rewards-dropdown {
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: var(--dropdown-bg, #fff);
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 250px; /* Wider dropdown */
-  padding: 20px; /* Spacious */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: var(--dropdown-bg, #fff);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 250px; /* Wider dropdown */
+    padding: 20px; /* Spacious */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Wallet Balance Text */
 .wallet-balance {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
-  font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
 }
 
 /* Bigger Redeem Button */
 .big-button {
-  width: 100%;
-  padding: 14px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 14px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .big-button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
 /* Dark Mode */
 body.dark .rewards-dropdown {
-  background: #333;
-  border: 1px solid #555;
-  color: #eee;
+    background: #333;
+    border: 1px solid #555;
+    color: #eee;
 }
 
 body.dark .wallet-balance {
-  color: #eee;
+    color: #eee;
 }
 
 body.dark .big-button {
-  background-color: #388e3c;
+    background-color: #388e3c;
 }
 
 body.dark .big-button:hover {
-  background-color: #2e7d32;
+    background-color: #2e7d32;
 }
 
 /* Profile Dropdown */
 .nav-item-profile-wrapper {
-  position: relative;
+    position: relative;
 }
 
 .profile-dropdown {
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: var(--dropdown-bg, #fff);
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 150px;
-  padding: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: var(--dropdown-bg, #fff);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 150px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Logout Button */
 .logout-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #c0392b;
+    background-color: #c0392b;
 }
 
 /* Dark Mode */
 body.dark .profile-dropdown {
-  background: #333;
-  border: 1px solid #555;
-  color: #eee;
+    background: #333;
+    border: 1px solid #555;
+    color: #eee;
 }
 
 body.dark .logout-button {
-  background-color: #d32f2f;
+    background-color: #d32f2f;
 }
 
 body.dark .logout-button:hover {
-  background-color: #b71c1c;
+    background-color: #b71c1c;
 }

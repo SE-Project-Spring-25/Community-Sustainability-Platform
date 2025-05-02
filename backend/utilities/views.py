@@ -2,6 +2,7 @@ import calendar
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
+from django.db.models import F
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,13 +11,13 @@ from .models import (
     TransportationEmission,
     HouseholdEnergy,
     FoodConsumption,
-    TotalCarbonFootprint
+    TotalCarbonFootprint, Wallet, Redemption
 )
 from .serializers import (
     TransportationEmissionSerializer,
     HouseholdEnergySerializer,
     FoodConsumptionSerializer,
-    TotalCarbonFootprintSerializer
+    TotalCarbonFootprintSerializer, RedemptionSerializer, WalletSerializer
 )
 from .utils import get_total_carbon_footprint
 
@@ -81,39 +82,28 @@ class TotalCarbonFootprintViewSet(viewsets.ModelViewSet):
 
 
 class UtilitiesStatsAPIView(APIView):
-    """
-    Returns aggregated utilities statistics:
-      - resourceConsumption: aggregated emissions in the last month
-        for Household Energy, Food Consumption, and Transportation Emission.
-      - monthlyEmissions: total carbon emissions per month for the past 12 months.
-      - labels: month abbreviation labels corresponding to monthlyEmissions.
-    """
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        # Get today's date.
         today = date.today()
 
-        # Calculate last month's date range.
+        # Last-month range
         if today.month == 1:
-            last_month_year = today.year - 1
-            last_month = 12
+            lm_year, lm_month = today.year - 1, 12
         else:
-            last_month_year = today.year
-            last_month = today.month - 1
+            lm_year, lm_month = today.year, today.month - 1
+        start_last = date(lm_year, lm_month, 1)
+        end_last = date(lm_year, lm_month, calendar.monthrange(lm_year, lm_month)[1])
 
-        start_last_month = date(last_month_year, last_month, 1)
-        last_day = calendar.monthrange(last_month_year, last_month)[1]
-        end_last_month = date(last_month_year, last_month, last_day)
+        # Only this user’s records
+        household_records = HouseholdEnergy.objects.filter(user=request.user, date__range=(start_last, end_last))
+        food_records = FoodConsumption.objects.filter(user=request.user, date__range=(start_last, end_last))
+        transportation_records = TransportationEmission.objects.filter(user=request.user,
+                                                                       date__range=(start_last, end_last))
 
-        # Aggregate resource consumption for the last month.
-        household_records = HouseholdEnergy.objects.filter(date__range=(start_last_month, end_last_month))
-        food_records = FoodConsumption.objects.filter(date__range=(start_last_month, end_last_month))
-        transportation_records = TransportationEmission.objects.filter(date__range=(start_last_month, end_last_month))
-
-        household_total = sum(record.emissions for record in household_records)
-        food_total = sum(record.emissions for record in food_records)
-        transportation_total = sum(record.emissions for record in transportation_records)
+        household_total = sum(r.emissions for r in household_records)
+        food_total = sum(r.emissions for r in food_records)
+        transportation_total = sum(r.emissions for r in transportation_records)
 
         resourceConsumption = {
             "Household Energy": household_total,
@@ -121,37 +111,87 @@ class UtilitiesStatsAPIView(APIView):
             "Transportation Emission": transportation_total,
         }
 
-        # Calculate monthly emissions for the past 12 months.
+        # Past 12 months
         monthlyEmissions = []
         labels = []
-        # Start at the first day of the current month.
-        current_month_date = date(today.year, today.month, 1)
+        current_month = date(today.year, today.month, 1)
         for i in range(12):
-            month_start = current_month_date - relativedelta(months=i)
-            # End of the month:
-            last_day_of_month = calendar.monthrange(month_start.year, month_start.month)[1]
-            month_end = date(month_start.year, month_start.month, last_day_of_month)
+            m_start = current_month - relativedelta(months=i)
+            m_end = date(m_start.year, m_start.month, calendar.monthrange(m_start.year, m_start.month)[1])
 
-            hm = HouseholdEnergy.objects.filter(date__range=(month_start, month_end))
-            fc = FoodConsumption.objects.filter(date__range=(month_start, month_end))
-            te = TransportationEmission.objects.filter(date__range=(month_start, month_end))
+            hm = HouseholdEnergy.objects.filter(user=request.user, date__range=(m_start, m_end))
+            fc = FoodConsumption.objects.filter(user=request.user, date__range=(m_start, m_end))
+            te = TransportationEmission.objects.filter(user=request.user, date__range=(m_start, m_end))
 
-            month_total = (
-                    sum(obj.emissions for obj in hm) +
-                    sum(obj.emissions for obj in fc) +
-                    sum(obj.emissions for obj in te)
+            monthlyEmissions.append(
+                sum(o.emissions for o in hm) +
+                sum(o.emissions for o in fc) +
+                sum(o.emissions for o in te)
             )
-            monthlyEmissions.append(month_total)
-            # Use calendar.month_abbr for month abbreviation, e.g., "Jan", "Feb", etc.
-            labels.append(calendar.month_abbr[month_start.month])
+            labels.append(calendar.month_abbr[m_start.month])
 
-        # Reverse lists so that data is in chronological order (oldest to newest).
         monthlyEmissions.reverse()
         labels.reverse()
 
-        data = {
+        return Response({
             "resourceConsumption": resourceConsumption,
             "monthlyEmissions": monthlyEmissions,
             "labels": labels,
-        }
+        })
+
+
+class WalletView(APIView):
+    """
+    GET current user's wallet (balance + transactions)
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+        data = WalletSerializer(wallet).data
         return Response(data)
+
+
+class RedemptionViewSet(viewsets.ModelViewSet):
+    """
+    POST to redeem points, GET to list a user's redemptions.
+    """
+    serializer_class = RedemptionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        wallet, _ = Wallet.objects.get_or_create(user=self.request.user)
+        return Redemption.objects.filter(wallet=wallet)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class LeaderboardAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Top 10 wallets ordered by descending points
+        top_wallets = Wallet.objects.select_related('user') \
+                          .order_by(F('points').desc())[:10]
+        top10 = [
+            {'name': w.user.first_name, 'points': w.points}
+            for w in top_wallets
+        ]
+
+        # Current user's wallet (create if missing)
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+
+        # Compute current user's rank
+        rank = Wallet.objects.filter(points__gt=wallet.points).count() + 1
+
+        current_user = {
+            'name': request.user.first_name,
+            'points': wallet.points,
+            'rank': rank
+        }
+
+        return Response({
+            'top10': top10,
+            'currentUser': current_user
+        })
